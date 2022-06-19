@@ -1,0 +1,76 @@
+import pacientes.*
+import aparatos.*
+
+describe "Test pacientes especiales" {
+	const magneto1 = new Magneto()
+	const bici1 = new Bicileta()
+	const minitramp1 = new Minitramp()
+	const biciRoja = new Bicileta(color=rojo)
+	const magnetoVerde = new Magneto(color=verde)
+	
+	const nicolas = new Resistente(
+		edad =40, 
+		nivelDolor=10, 
+		nivelFortaleza=20,
+		aparatosDeRutina=[magneto1,bici1,minitramp1]
+	)
+	const victoria = new Caprichoso(
+		edad =30, 
+		nivelDolor=10, 
+		nivelFortaleza=40,
+		aparatosDeRutina=[magneto1,bici1,minitramp1]
+	)
+	
+	const julian = new Caprichoso(
+		edad =20, 
+		nivelDolor=54, 
+		nivelFortaleza=50,
+		aparatosDeRutina=[biciRoja,magnetoVerde,bici1]
+	)
+	
+	const zoe = new RapidaRecuperacion(
+		edad =50, 
+		nivelDolor=14, 
+		nivelFortaleza=40,
+		aparatosDeRutina=[magneto1,bici1,minitramp1]
+	)
+
+	
+	test "Nicolas puede realizar la rutina" {
+		assert.that(nicolas.puedeHacerRutina())
+	}
+
+	
+	test "Nicolas hace rutina, dolor=5 y fortaleza=30" {
+		nicolas.hacerSesion()
+		assert.equals(5, nicolas.nivelDolor())
+		assert.equals(30, nicolas.nivelFortaleza())
+	}
+	
+	test "Victoria no puede realizar la rutina" {
+		assert.notThat(victoria.puedeHacerRutina())
+	}
+	
+	test "Julián puede realizar la rutina" {
+		assert.that(julian.puedeHacerRutina())
+	}
+
+	
+	test "Julián hace rutina, dolor=29.3 y fortaleza=62" {
+		julian.hacerSesion()
+		assert.equals(29.3, julian.nivelDolor())
+		assert.equals(62, julian.nivelFortaleza())
+	}
+	
+	test "Zoe puede realizar la rutina" {
+		assert.that(zoe.puedeHacerRutina())
+	}
+
+	
+	test "Zoe hace rutina, dolor=6.6 y fortaleza=48" {
+		zoe.configurarAlivioDolor(2)
+		zoe.hacerSesion()
+		assert.equals(6.6, zoe.nivelDolor())
+		assert.equals(48, zoe.nivelFortaleza())
+	}
+}
